@@ -4,7 +4,7 @@
  Plugin URI: http://www.zingiri.com
  Description: Include snippets from other sites in your own site
  Author: Zingiri
- Version: 1.0.0
+ Version: 1.0.1
  Author URI: http://www.zingiri.com/
  */
 
@@ -17,7 +17,7 @@ function parsnip_shortcode( $atts, $content=null, $code="" ) {
 
 	$level=isset($_REQUEST['parsniplevel']) ? $_REQUEST['parsniplevel'] : 1;
 	$scLevel=isset($atts['level']) ? $atts['level'] : 1;
-	if ($level != $scLevel) {
+	if (($level != $scLevel) && ($scLevel != '*')) {
 		return;
 	} 
 	$output='';
@@ -43,13 +43,15 @@ function parsnip_shortcode( $atts, $content=null, $code="" ) {
 		}
 	}
 	$output.='</div>';
-	preg_match_all('/href="(.*)" /',$output,$matches);
+	preg_match_all('/href="([^"]*)"/',$output,$matches);
 	$link=get_permalink();
 	$pre=isset($atts['pre']) ? $atts['pre'] :'';
+	if (substr($pre,-1)!='/') $pre.='/';
 	$link.='?parsniplevel='.($level+1).'&parsnip=';
 	if (count($matches) > 0) {
 		foreach ($matches[1] as $match) {
-			$output=str_replace($match,$link.urlencode(base64_encode($pre.$match)),$output);
+			if (isset($atts['nofollow']) && ($atts['nofollow'])) $output=str_replace($match,'#',$output);
+			else $output=str_replace($match,$link.urlencode(base64_encode($pre.$match)),$output);
 		}
 	}
 	return $output;

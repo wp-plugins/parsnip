@@ -3,8 +3,8 @@ Contributors: zingiri
 Donate link: http://www.zingiri.com/donations
 Tags: parse, parser, snippet, html
 Requires at least: 3.4
-Tested up to: 3.5.1
-Stable tag: 1.0.0
+Tested up to: 4.2.2
+Stable tag: 1.0.1
 License: GPLv2 or later
 
 Include HTML snippets from other sites in your own site
@@ -28,12 +28,13 @@ In the following example we will demonstrate how to parse a FAQ section of our o
 
 You can use shortcodes in the following format:
 
-[parsnip level="..." url="..." pre="..." selectors="..."]
+[parsnip level="..." url="..." pre="..." selectors="..." nofollow="1"]
 
 * url: the URL you want to get a HTML snippet from, for example "http://go.zingiri.com/knowledgebase/1019/Bookings"
 * pre: the first part of the URL "http://go.zingiri.com"
 * selectors: the jQuery style selectors to retrieve the portion of the HTML page that we want, for example ".contentpadded .row". They can be comma separated in case you want to use multiple selections on the page. We use the [phpQuery](http://code.google.com/p/phpquery/ "phpQuery") library for this, you will find more example on their site.
 * level: parsing level, we'll come to this later
+* nofollow: specifying nofollow="1" will disable any links on the page you are retrieving
 
 So this would give:
 
@@ -52,6 +53,8 @@ Note that both [parsnip] short codes go together on the page like this:
 
 You will now be able to view the Bookings FAQs and also to open individual links. 
 
+You can also set level="*" in which case the same selectors are used on all pages.
+
 == Screenshots ==
 
 1. First level parsing example
@@ -62,6 +65,11 @@ You will now be able to view the Bookings FAQs and also to open individual links
 Standard plugin upgrade method applies.
 
 == Changelog ==
+
+= 1.0.1 =
+* Verified compatibility with Wordpress 4.2.2
+* Fixed issue with parsing of links
+* Added new "nofollow" option
 
 = 1.0.0 =
 * First release
